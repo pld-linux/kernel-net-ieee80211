@@ -10,14 +10,14 @@
 #
 %define		modname	ieee80211
 Summary:	Linux kernel module for the ieee80211 networking stack
-#Summary(pl):	
+Summary(pl):	Modu³ j±dra Linuksa do stosu sieciowego ieee80211
 Name:		kernel-net-%{modname}
 Version:	1.0.3
 %define		_rel	0.1
 Release:	%{_rel}@%{_kernel_ver_str}
 License:	GPL v2
 Group:		Base/Kernel
-Source0:	http://dl.sourceforge.net/%{modname}/%{modname}-%{version}.tgz
+Source0:	http://dl.sourceforge.net/ieee80211/%{modname}-%{version}.tgz
 # Source0-md5:	49870c030278e3716194ff5b64f9cbaa
 URL:		http://ieee80211.sourceforge.net/
 %{?with_dist_kernel:BuildRequires:	kernel-module-build >= 2.6.8}
@@ -30,31 +30,34 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 Linux kernel module for the ieee80211 networking stack.
 
-#%description -l pl
+%description -l pl
+Modu³ j±dra Linuksa do stosu sieciowego ieee80211.
 
 %package -n kernel-smp-net-%{modname}
 Summary:	Linux SMP kernel module for the ieee80211 networking stack
-#Summary(pl):	
+Summary(pl):	Modu³ j±dra Linuksa SMP do stosu sieciowego ieee80211
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 %{?with_dist_kernel:%requires_releq_kernel_smp}
 Requires(post,postun):	/sbin/depmod
 
 %description -n kernel-smp-net-%{modname}
-Linux SMP kernel module for the ieee80211 networking stack.`
+Linux SMP kernel module for the ieee80211 networking stack.
 
-#%description -n kernel-smp-net-ieee80211 -l pl
+%description -n kernel-smp-net-ieee80211 -l pl
+Modu³ j±dra Linuksa SMP do stosu sieciowego ieee80211.
 
 %package -n %{modname}-devel
-Summary:	Develelopment header files for the ieee80211 networking stack
-#Summery(pl):	
+Summary:	Development header files for the ieee80211 networking stack
+Summary(pl):	Pliki nag³ówkowe do stosu sieciowego ieee80211
 Release:	%{_rel}
 Group:		Development/Libraries
 
 %description -n %{modname}-devel
-Develelopment header files for the ieee80211 networking stack.
+Development header files for the ieee80211 networking stack.
 
 %description -n %{modname}-devel -l pl
+Pliki nag³ówkowe do stosu sieciowego ieee80211.
 
 %prep
 %setup -q -n %{modname}-%{version}
