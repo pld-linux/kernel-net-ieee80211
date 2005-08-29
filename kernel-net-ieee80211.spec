@@ -1,8 +1,4 @@
 #
-# TODO:
-# - where to put header files? (now in /lib/modules/.../include)
-#   remember to correct ipw2200.spec when changing this
-#
 # Conditional build:
 %bcond_without	dist_kernel	# allow non-distribution kernel
 %bcond_without	smp		# don't build SMP module
@@ -13,7 +9,7 @@ Summary:	Linux kernel module for the ieee80211 networking stack
 Summary(pl):	Modu³ j±dra Linuksa do stosu sieciowego ieee80211
 Name:		kernel-net-%{modname}
 Version:	1.0.3
-%define		_rel	0.1
+%define		_rel	1
 Release:	%{_rel}@%{_kernel_ver_str}
 License:	GPL v2
 Group:		Base/Kernel
@@ -103,9 +99,9 @@ install smp/*.ko \
 %endif
 
 cd ..
-install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/include/net
+install -d $RPM_BUILD_ROOT%{_kernelsrcdir}/include/net
 install net/* \
-	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/include/net
+	$RPM_BUILD_ROOT%{_kernelsrcdir}/include/net
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -134,4 +130,4 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n %{modname}-devel
 %defattr(644,root,root,755)
-/lib/modules/%{_kernel_ver}/include/net
+%{_kernelsrcdir}/include/net/*
