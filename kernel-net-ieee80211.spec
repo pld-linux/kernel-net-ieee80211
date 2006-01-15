@@ -13,7 +13,7 @@ Summary:	Linux kernel module for the ieee80211 networking stack
 Summary(pl):	Modu³ j±dra Linuksa do stosu sieciowego ieee80211
 Name:		kernel-net-%{modname}
 Version:	1.1.8
-%define		_rel	1
+%define		_rel	2
 Release:	%{_rel}@%{_kernel_ver_str}
 License:	GPL v2
 Group:		Base/Kernel
@@ -103,12 +103,12 @@ done
 rm -rf $RPM_BUILD_ROOT
 
 cd built
-install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}{,smp}/kernel/drivers/net/wireless
+install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}{,smp}/misc
 install %{?with_dist_kernel:up}%{!?with_dist_kernel:nondist}/*.ko \
-	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/kernel/drivers/net/wireless
+	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc
 %if %{with smp} && %{with dist_kernel}
 install smp/*.ko \
-	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/kernel/drivers/net/wireless
+	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc
 %endif
 
 cd ..
@@ -133,12 +133,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n kernel-net-%{modname}
 %defattr(644,root,root,755)
-/lib/modules/%{_kernel_ver}/kernel/drivers/net/wireless/ieee80211*.ko*
+/lib/modules/%{_kernel_ver}/misc/ieee80211*.ko*
 
 %if %{with smp} && %{with dist_kernel}
 %files -n kernel-smp-net-%{modname}
 %defattr(644,root,root,755)
-/lib/modules/%{_kernel_ver}smp/kernel/drivers/net/wireless/ieee80211*.ko*
+/lib/modules/%{_kernel_ver}smp/misc/ieee80211*.ko*
 %endif
 
 %files -n %{modname}-devel
