@@ -13,7 +13,7 @@ Summary:	Linux kernel module for the ieee80211 networking stack
 Summary(pl):	Modu³ j±dra Linuksa do stosu sieciowego ieee80211
 Name:		kernel-net-%{modname}
 Version:	1.1.12
-%define		_rel	1
+%define		_rel	2
 Release:	%{_rel}@%{_kernel_ver_str}
 License:	GPL v2
 Group:		Base/Kernel
@@ -84,9 +84,9 @@ for cfg in %{?with_dist_kernel:%{?with_smp:smp} up}%{!?with_dist_kernel:nondist}
         ln -sf %{_kernelsrcdir}/include/asm-%{_target_base_arch} include/asm
 %endif
 	ln -sf %{_kernelsrcdir}/Module.symvers-$cfg Module.symvers
-	%if %{without dist_kernel}
+#	%if %{without dist_kernel}
                 ln -sf %{_kernelsrcdir}/scripts
-        %endif
+ #       %endif
 	touch include/config/MARKER
 	%{__make} -C %{_kernelsrcdir} clean \
 		RCS_FIND_IGNORE="-name '*.ko' -o" \
@@ -116,6 +116,18 @@ install -d $RPM_BUILD_ROOT%{_kernelsrcdir}/include/net
 install net/* \
 	$RPM_BUILD_ROOT%{_kernelsrcdir}/include/net
 
+# avoid conflicts with kernel modules:
+cd $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc
+for module in *.ko; do
+	mv $module `basename $module | sed -e "s/\.ko//"`_current.ko
+done
+%if %{with smp} && %{with dist_kernel}
+cd $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc
+for module in *.ko; do
+	mv $module `basename $module | sed -e "s/\.ko//"`_current.ko
+done
+%endif
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -130,6 +142,32 @@ rm -rf $RPM_BUILD_ROOT
 
 %postun	-n kernel-smp-net-%{modname}
 %depmod %{_kernel_ver}smp
+
+%triggerpostun -n kernel-net-ieee80211 -- kernel-net-ieee80211 < 1.1.12-2
+%banner kernel-net-ieee80211-1.1.12-1 <<'EOF'
+Current kernel provides ieee80211* modules.
+This package contains currently module named ieee80211*_current.
+
+If you want to use this module do:
+echo "alias ieee80211 ieee80211_current" >> /etc/modprobe.conf
+echo "alias ieee80211_crypt ieee80211_crypt_current" >> /etc/modprobe.conf
+echo "alias ieee80211_crypt_ccmp ieee80211_crypt_ccmp_current" >> /etc/modprobe.conf
+echo "alias ieee80211_crypt_tkip ieee80211_crypt_tkip_current" >> /etc/modprobe.conf
+echo "alias ieee80211_crypt_wep ieee80211_crypt_wep_current" >> /etc/modprobe.conf
+EOF
+
+%triggerpostun -n kernel-smp-net-ieee80211 -- kernel-smp-net-ieee80211 < 1.1.12-2
+%banner kernel-smp-net-ieee80211-1.1.12-1 <<'EOF'
+Current kernel provides ieee80211* modules.
+This package contains currently module named ieee80211*_current.
+
+If you want to use this module do:
+echo "alias ieee80211 ieee80211_current" >> /etc/modprobe.conf
+echo "alias ieee80211_crypt ieee80211_crypt_current" >> /etc/modprobe.conf
+echo "alias ieee80211_crypt_ccmp ieee80211_crypt_ccmp_current" >> /etc/modprobe.conf
+echo "alias ieee80211_crypt_tkip ieee80211_crypt_tkip_current" >> /etc/modprobe.conf
+echo "alias ieee80211_crypt_wep ieee80211_crypt_wep_current" >> /etc/modprobe.conf
+EOF
 
 %files -n kernel-net-%{modname}
 %defattr(644,root,root,755)
