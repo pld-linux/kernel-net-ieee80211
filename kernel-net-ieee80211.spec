@@ -9,18 +9,18 @@
 %endif
 #
 %define		modname	ieee80211
+%define		_rel	2
 Summary:	Linux kernel module for the ieee80211 networking stack
 Summary(pl):	Modu³ j±dra Linuksa do stosu sieciowego ieee80211
 Name:		kernel-net-%{modname}
 Version:	1.1.12
-%define		_rel	2
 Release:	%{_rel}@%{_kernel_ver_str}
 License:	GPL v2
 Group:		Base/Kernel
 Source0:	http://dl.sourceforge.net/ieee80211/%{modname}-%{version}.tgz
 # Source0-md5:	20da3f23dad2356da8f14d8b3d88d58e
 URL:		http://ieee80211.sourceforge.net/
-%{?with_dist_kernel:BuildRequires:	kernel-module-build >= 2.6.14}
+%{?with_dist_kernel:BuildRequires:	kernel-module-build >= 3:2.6.14}
 BuildRequires:	rpmbuild(macros) >= 1.153
 BuildRequires:	sed >= 4.0
 %{?with_dist_kernel:%requires_releq_kernel_up}
