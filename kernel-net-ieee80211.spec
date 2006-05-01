@@ -11,6 +11,7 @@
 %define		modname	ieee80211
 %define		_rel	1
 Summary:	Linux kernel module for the ieee80211 networking stack
+Summary(de):	Linux Kernel Treiber für den ieee80211 Netz Stapel
 Summary(pl):	Modu³ j±dra Linuksa do stosu sieciowego ieee80211
 Name:		kernel-net-%{modname}
 Version:	1.1.13
@@ -31,11 +32,15 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 Linux kernel module for the ieee80211 networking stack.
 
+%description -l de
+Linuxk Kernel Modul für den ieee80211 Netz Stapel.
+
 %description -l pl
 Modu³ j±dra Linuksa do stosu sieciowego ieee80211.
 
 %package -n kernel-smp-net-%{modname}
 Summary:	Linux SMP kernel module for the ieee80211 networking stack
+Summary(de):	Linux SMP Kernel Modul für den ieee80211 Netz Stapel
 Summary(pl):	Modu³ j±dra Linuksa SMP do stosu sieciowego ieee80211
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
@@ -46,11 +51,15 @@ Requires:	module-init-tools >= 3.2.2-2
 %description -n kernel-smp-net-%{modname}
 Linux SMP kernel module for the ieee80211 networking stack.
 
-%description -n kernel-smp-net-ieee80211 -l pl
+%description -n kernel-smp-net-%{modname} -l de
+Linux SMP Kernel Modul für den ieee80211 Netz Stapel.
+
+%description -n kernel-smp-net-%{modname} -l pl
 Modu³ j±dra Linuksa SMP do stosu sieciowego ieee80211.
 
 %package -n %{modname}-devel
 Summary:	Development header files for the ieee80211 networking stack
+Summary(de):	Development Header Dateien für den ieee80211 Netz Stapel
 Summary(pl):	Pliki nag³ówkowe do stosu sieciowego ieee80211
 Release:	%{_rel}@%{_kernel_ver_str}
 %{?with_dist_kernel:%requires_releq kernel-module-build}
@@ -58,6 +67,9 @@ Group:		Development/Libraries
 
 %description -n %{modname}-devel
 Development header files for the ieee80211 networking stack.
+
+%description -n %{modname}-devel -l de
+Development Header Dateien für den ieee80211 Netz Stapel.
 
 %description -n %{modname}-devel -l pl
 Pliki nag³ówkowe do stosu sieciowego ieee80211.
