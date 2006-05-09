@@ -33,7 +33,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Linux kernel module for the ieee80211 networking stack.
 
 %description -l de
-Linuxk Kernel Modul für den ieee80211 Netz Stapel.
+Linux Kernel Modul für den ieee80211 Netz Stapel.
 
 %description -l pl
 Modu³ j±dra Linuksa do stosu sieciowego ieee80211.
