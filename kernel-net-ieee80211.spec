@@ -76,7 +76,7 @@ Pliki nag³ówkowe do stosu sieciowego ieee80211.
 
 %prep
 %setup -q -n %{modname}-%{version}
-%{__sed} -i 's:<net\/ieee80211.h>:\"net\/ieee80211.h\":g' *.c
+%{__sed} -i 's:<net/ieee80211.h>:"net/ieee80211.h":g' *.c
 
 %build
 # kernel module(s)
