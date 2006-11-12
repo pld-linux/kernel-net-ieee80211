@@ -29,6 +29,8 @@ Requires(post,postun):	/sbin/depmod
 Requires:	module-init-tools >= 3.2.2-2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%define	ieeemod	ieee80211,ieee80211_crypt{,_wep,_ccmp,_tkip}
+
 %description
 Linux kernel module for the ieee80211 networking stack.
 
@@ -79,12 +81,12 @@ Pliki nag³ówkowe do stosu sieciowego ieee80211.
 %{__sed} -i 's:<net/ieee80211.h>:"net/ieee80211.h":g' *.c
 
 %build
-%build_kernel_modules -m ieee80211,ieee80211_crypt{,_wep,_ccmp,_tkip}
+%build_kernel_modules -m %{ieeemod}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%install_kernel_modules -m ieee80211,ieee80211_crypt{,_wep,_ccmp,_tkip} -d misc -s current -n ieee80211
+%install_kernel_modules -m %{ieeemod} -d misc -s current -n ieee80211
 
 install -d $RPM_BUILD_ROOT%{_kernelsrcdir}/include/net
 install net/* \
