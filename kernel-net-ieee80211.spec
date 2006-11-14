@@ -22,7 +22,7 @@ Source0:	http://dl.sourceforge.net/ieee80211/%{modname}-%{version}.tgz
 # Source0-md5:	499d5272fd1326ae65ebef80d9726e4d
 URL:		http://ieee80211.sourceforge.net/
 %{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.14}
-BuildRequires:	rpmbuild(macros) >= 1.326
+BuildRequires:	rpmbuild(macros) >= 1.330
 BuildRequires:	sed >= 4.0
 %{?with_dist_kernel:%requires_releq_kernel_up}
 Requires(post,postun):	/sbin/depmod
