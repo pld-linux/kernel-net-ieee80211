@@ -14,12 +14,12 @@ Summary:	Linux kernel module for the ieee80211 networking stack
 Summary(de):	Linux Kernel Treiber für den ieee80211 Netz Stapel
 Summary(pl):	Modu³ j±dra Linuksa do stosu sieciowego ieee80211
 Name:		kernel%{_alt_kernel}-net-%{modname}
-Version:	1.2.15
+Version:	1.2.16
 Release:	%{_rel}@%{_kernel_ver_str}
 License:	GPL v2
 Group:		Base/Kernel
-Source0:	http://dl.sourceforge.net/ieee80211/%{modname}-%{version}.tgz
-# Source0-md5:	499d5272fd1326ae65ebef80d9726e4d
+Source0:	http://prdownloads.sourceforge.net/ieee80211/%{modname}-%{version}.tgz
+# Source0-md5:	5d4ff0f2771c9c85c831b3787c8fef56
 URL:		http://ieee80211.sourceforge.net/
 %{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.14}
 BuildRequires:	rpmbuild(macros) >= 1.330
