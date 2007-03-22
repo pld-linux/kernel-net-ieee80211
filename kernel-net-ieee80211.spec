@@ -23,9 +23,9 @@ Source0:	http://prdownloads.sourceforge.net/ieee80211/%{modname}-%{version}.tgz
 # Source0-md5:	5d4ff0f2771c9c85c831b3787c8fef56
 URL:		http://ieee80211.sourceforge.net/
 %{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.14}
-BuildRequires:	rpmbuild(macros) >= 1.330
+BuildRequires:	rpmbuild(macros) >= 1.379
 BuildRequires:	sed >= 4.0
-%{?with_dist_kernel:%requires_releq_kernel_up}
+%{?with_dist_kernel:%requires_releq_kernel}
 Requires(post,postun):	/sbin/depmod
 Requires:	module-init-tools >= 3.2.2-2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -47,7 +47,7 @@ Summary(de.UTF-8):	Linux SMP Kernel Modul für den ieee80211 Netz Stapel
 Summary(pl.UTF-8):	Moduł jądra Linuksa SMP do stosu sieciowego ieee80211
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
-%{?with_dist_kernel:%requires_releq_kernel_smp}
+%{?with_dist_kernel:%requires_releq_kernel}
 Requires(post,postun):	/sbin/depmod
 Requires:	module-init-tools >= 3.2.2-2
 
