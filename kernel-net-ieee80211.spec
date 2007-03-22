@@ -1,13 +1,12 @@
 #
 # Conditional build:
 %bcond_without	dist_kernel	# allow non-distribution kernel
-%bcond_without	smp		# don't build SMP module
 %bcond_without	up		# don't build UP module
 %bcond_with	verbose		# verbose build (V=1)
 #
-%ifarch sparc
-%undefine	with_smp
-%endif
+#%ifarch sparc
+#%undefine	with_smp
+#%endif
 #
 %define		modname	ieee80211
 %define		_rel	1
@@ -40,25 +39,6 @@ Linux Kernel Modul für den ieee80211 Netz Stapel.
 
 %description -l pl.UTF-8
 Moduł jądra Linuksa do stosu sieciowego ieee80211.
-
-%package -n kernel%{_alt_kernel}-smp-net-%{modname}
-Summary:	Linux SMP kernel module for the ieee80211 networking stack
-Summary(de.UTF-8):	Linux SMP Kernel Modul für den ieee80211 Netz Stapel
-Summary(pl.UTF-8):	Moduł jądra Linuksa SMP do stosu sieciowego ieee80211
-Release:	%{_rel}@%{_kernel_ver_str}
-Group:		Base/Kernel
-%{?with_dist_kernel:%requires_releq_kernel}
-Requires(post,postun):	/sbin/depmod
-Requires:	module-init-tools >= 3.2.2-2
-
-%description -n kernel%{_alt_kernel}-smp-net-%{modname}
-Linux SMP kernel module for the ieee80211 networking stack.
-
-%description -n kernel%{_alt_kernel}-smp-net-%{modname} -l de.UTF-8
-Linux SMP Kernel Modul für den ieee80211 Netz Stapel.
-
-%description -n kernel%{_alt_kernel}-smp-net-%{modname} -l pl.UTF-8
-Moduł jądra Linuksa SMP do stosu sieciowego ieee80211.
 
 %package -n %{modname}-devel
 Summary:	Development header files for the ieee80211 networking stack
@@ -102,23 +82,10 @@ rm -rf $RPM_BUILD_ROOT
 %postun	-n kernel%{_alt_kernel}-net-%{modname}
 %depmod %{_kernel_ver}
 
-%post	-n kernel%{_alt_kernel}-smp-net-%{modname}
-%depmod %{_kernel_ver}smp
-
-%postun	-n kernel%{_alt_kernel}-smp-net-%{modname}
-%depmod %{_kernel_ver}smp
-
 %files -n kernel%{_alt_kernel}-net-%{modname}
 %defattr(644,root,root,755)
 /lib/modules/%{_kernel_ver}/misc/ieee80211*-current.ko*
 %{_sysconfdir}/modprobe.d/%{_kernel_ver}/ieee80211.conf
-
-%if %{with smp} && %{with dist_kernel}
-%files -n kernel%{_alt_kernel}-smp-net-%{modname}
-%defattr(644,root,root,755)
-/lib/modules/%{_kernel_ver}smp/misc/ieee80211*-current.ko*
-%{_sysconfdir}/modprobe.d/%{_kernel_ver}smp/ieee80211.conf
-%endif
 
 %files -n %{modname}-devel
 %defattr(644,root,root,755)
