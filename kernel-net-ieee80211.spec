@@ -1,12 +1,7 @@
 #
 # Conditional build:
 %bcond_without	dist_kernel	# allow non-distribution kernel
-%bcond_without	up		# don't build UP module
 %bcond_with	verbose		# verbose build (V=1)
-#
-#%ifarch sparc
-#%undefine	with_smp
-#%endif
 #
 %define		modname	ieee80211
 %define		_rel	2
