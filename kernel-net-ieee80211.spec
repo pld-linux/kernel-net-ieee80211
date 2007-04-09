@@ -16,7 +16,7 @@ Group:		Base/Kernel
 Source0:	http://prdownloads.sourceforge.net/ieee80211/%{modname}-%{version}.tgz
 # Source0-md5:	5d4ff0f2771c9c85c831b3787c8fef56
 URL:		http://ieee80211.sourceforge.net/
-%{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.14}
+%{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.20.2}
 BuildRequires:	rpmbuild(macros) >= 1.379
 BuildRequires:	sed >= 4.0
 %{?with_dist_kernel:%requires_releq_kernel}
