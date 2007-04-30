@@ -13,7 +13,7 @@ Version:	1.2.17
 Release:	%{_rel}@%{_kernel_ver_str}
 License:	GPL v2
 Group:		Base/Kernel
-Source0:	http://dl.sourceforge.net/ieee80211/%{modname}-%{version}.tgz
+Source0:	http://dl.sourceforge.net/ieee80211/%{modname}-%{version}.tar.gz
 # Source0-md5:	45f555036d4da5320b2c081eac8b3b4e
 URL:		http://ieee80211.sourceforge.net/
 %{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.20.2}
