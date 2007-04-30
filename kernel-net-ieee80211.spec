@@ -4,17 +4,17 @@
 %bcond_with	verbose		# verbose build (V=1)
 #
 %define		modname	ieee80211
-%define		_rel	2
+%define		_rel	1
 Summary:	Linux kernel module for the ieee80211 networking stack
 Summary(de.UTF-8):	Linux Kernel Treiber für den ieee80211 Netz Stapel
 Summary(pl.UTF-8):	Moduł jądra Linuksa do stosu sieciowego ieee80211
 Name:		kernel%{_alt_kernel}-net-%{modname}
-Version:	1.2.16
+Version:	1.2.17
 Release:	%{_rel}@%{_kernel_ver_str}
 License:	GPL v2
 Group:		Base/Kernel
 Source0:	http://dl.sourceforge.net/ieee80211/%{modname}-%{version}.tgz
-# Source0-md5:	5d4ff0f2771c9c85c831b3787c8fef56
+# Source0-md5:	45f555036d4da5320b2c081eac8b3b4e
 URL:		http://ieee80211.sourceforge.net/
 %{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.20.2}
 BuildRequires:	rpmbuild(macros) >= 1.379
