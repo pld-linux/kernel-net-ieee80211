@@ -15,6 +15,7 @@ License:	GPL v2
 Group:		Base/Kernel
 Source0:	http://dl.sourceforge.net/ieee80211/%{modname}-%{version}.tgz
 # Source0-md5:	a9ad546038ea7afb631e3dcf3175cddb
+Patch0:		kernel-net-ieee80211-2.6.24.patch
 URL:		http://ieee80211.sourceforge.net/
 %{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.20.2}
 BuildRequires:	rpmbuild(macros) >= 1.379
@@ -54,6 +55,7 @@ Pliki nagłówkowe do stosu sieciowego ieee80211.
 
 %prep
 %setup -q -n %{modname}-%{version}
+%patch0 -p1
 %{__sed} -i 's:<net/ieee80211.h>:"net/ieee80211.h":g' *.c
 
 %build

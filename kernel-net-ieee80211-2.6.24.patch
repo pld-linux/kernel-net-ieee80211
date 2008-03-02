@@ -1,0 +1,143 @@
+--- ieee80211-1.2.18./ieee80211_module.c	2008-03-02 19:30:01.357626000 +0100
++++ ieee80211-1.2.18/ieee80211_module.c	2008-03-02 20:05:01.213308635 +0100
+@@ -265,7 +265,11 @@
+ 	struct proc_dir_entry *e;
+ 
+ 	ieee80211_debug_level = debug;
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,24)
++	ieee80211_proc = proc_mkdir(DRV_NAME, init_net.proc_net);
++#else
+ 	ieee80211_proc = proc_mkdir(DRV_NAME, proc_net);
++#endif
+ 	if (ieee80211_proc == NULL) {
+ 		IEEE80211_ERROR("Unable to create " DRV_NAME
+ 				" proc directory\n");
+@@ -274,7 +278,11 @@
+ 	e = create_proc_entry("debug_level", S_IFREG | S_IRUGO | S_IWUSR,
+ 			      ieee80211_proc);
+ 	if (!e) {
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,24)
++		remove_proc_entry(DRV_NAME, init_net.proc_net);
++#else
+ 		remove_proc_entry(DRV_NAME, proc_net);
++#endif
+ 		ieee80211_proc = NULL;
+ 		return -EIO;
+ 	}
+@@ -294,7 +302,11 @@
+ #ifdef CONFIG_IEEE80211_DEBUG
+ 	if (ieee80211_proc) {
+ 		remove_proc_entry("debug_level", ieee80211_proc);
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,24)
++		remove_proc_entry(DRV_NAME, init_net.proc_net);
++#else
+ 		remove_proc_entry(DRV_NAME, proc_net);
++#endif
+ 		ieee80211_proc = NULL;
+ 	}
+ #endif				/* CONFIG_IEEE80211_DEBUG */
+--- ieee80211-1.2.18./ieee80211_crypt_wep.c	2008-03-02 19:30:01.357626000 +0100
++++ ieee80211-1.2.18/ieee80211_crypt_wep.c	2008-03-02 20:35:42.086789392 +0100
+@@ -22,7 +22,11 @@
+ #include "net/ieee80211.h"
+ 
+ #include <linux/crypto.h>
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,24)
++#include <linux/scatterlist.h>
++#else
+ #include <asm/scatterlist.h>
++#endif
+ #include <linux/crc32.h>
+ 
+ MODULE_AUTHOR("Jouni Malinen");
+@@ -187,9 +191,13 @@ static int prism2_wep_encrypt(struct sk_
+ 	icv[3] = crc >> 24;
+ 
+ 	crypto_blkcipher_setkey(wep->tx_tfm, key, klen);
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,24)
++	sg_init_one(&sg, pos, len + 4);
++#else
+ 	sg.page = virt_to_page(pos);
+ 	sg.offset = offset_in_page(pos);
+ 	sg.length = len + 4;
++#endif
+ #if LINUX_VERSION_CODE > KERNEL_VERSION(2,6,18)
+ 	return crypto_blkcipher_encrypt(&desc, &sg, &sg, len + 4);
+ #else
+@@ -235,9 +243,13 @@ static int prism2_wep_decrypt(struct sk_
+ 	plen = skb->len - hdr_len - 8;
+ 
+ 	crypto_blkcipher_setkey(wep->rx_tfm, key, klen);
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,24)
++	sg_init_one(&sg, pos, plen + 4);
++#else
+ 	sg.page = virt_to_page(pos);
+ 	sg.offset = offset_in_page(pos);
+ 	sg.length = plen + 4;
++#endif
+ #if LINUX_VERSION_CODE > KERNEL_VERSION(2,6,18)
+ 	if (crypto_blkcipher_decrypt(&desc, &sg, &sg, plen + 4))
+ #else
+--- ieee80211-1.2.18./ieee80211_crypt_tkip.c	2008-03-02 19:30:01.357626000 +0100
++++ ieee80211-1.2.18/ieee80211_crypt_tkip.c	2008-03-02 20:50:11.027069254 +0100
+@@ -25,7 +25,11 @@
+ #include "net/ieee80211.h"
+ 
+ #include <linux/crypto.h>
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,24)
++#include <linux/scatterlist.h>
++#else
+ #include <asm/scatterlist.h>
++#endif
+ #include <linux/crc32.h>
+ 
+ MODULE_AUTHOR("Jouni Malinen");
+@@ -412,9 +416,13 @@ static int ieee80211_tkip_encrypt(struct
+ 	icv[3] = crc >> 24;
+ 
+ 	crypto_blkcipher_setkey(tkey->tx_tfm_arc4, rc4key, 16);
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,24)
++	sg_init_one(&sg, pos, len + 4);
++#else 
+ 	sg.page = virt_to_page(pos);
+ 	sg.offset = offset_in_page(pos);
+ 	sg.length = len + 4;
++#endif
+ #if LINUX_VERSION_CODE > KERNEL_VERSION(2,6,18)
+ 	return crypto_blkcipher_encrypt(&desc, &sg, &sg, len + 4);
+ #else
+@@ -512,9 +520,13 @@ static int ieee80211_tkip_decrypt(struct
+ 	plen = skb->len - hdr_len - 12;
+ 
+ 	crypto_blkcipher_setkey(tkey->rx_tfm_arc4, rc4key, 16);
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,24)
++	sg_init_one(&sg, pos, plen + 4);
++#else 
+ 	sg.page = virt_to_page(pos);
+ 	sg.offset = offset_in_page(pos);
+ 	sg.length = plen + 4;
++#endif
+ #if LINUX_VERSION_CODE > KERNEL_VERSION(2,6,18)
+ 	if (crypto_blkcipher_decrypt(&desc, &sg, &sg, plen + 4)) {
+ #else
+@@ -572,6 +584,11 @@ static int michael_mic(struct crypto_has
+ 		printk(KERN_WARNING "michael_mic: tfm_michael == NULL\n");
+ 		return -1;
+ 	}
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,24)
++	sg_init_table(sg, 2);
++	sg_set_buf(&sg[0], hdr, 16);
++	sg_set_buf(&sg[1], data, data_len);
++#else
+ 	sg[0].page = virt_to_page(hdr);
+ 	sg[0].offset = offset_in_page(hdr);
+ 	sg[0].length = 16;
+@@ -579,7 +596,7 @@ static int michael_mic(struct crypto_has
+ 	sg[1].page = virt_to_page(data);
+ 	sg[1].offset = offset_in_page(data);
+ 	sg[1].length = data_len;
+-
++#endif
+ #if LINUX_VERSION_CODE > KERNEL_VERSION(2,6,18)
+ 	if (crypto_hash_setkey(tfm_michael, key, 8))
+ 		return -1;
