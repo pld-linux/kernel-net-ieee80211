@@ -4,7 +4,7 @@
 %bcond_with	verbose		# verbose build (V=1)
 #
 %define		modname	ieee80211
-%define		_rel	5
+%define		_rel	6
 Summary:	Linux kernel module for the ieee80211 networking stack
 Summary(de.UTF-8):	Linux Kernel Treiber für den ieee80211 Netz Stapel
 Summary(pl.UTF-8):	Moduł jądra Linuksa do stosu sieciowego ieee80211
