@@ -55,7 +55,7 @@ Pliki nagłówkowe do stosu sieciowego ieee80211.
 
 %prep
 %setup -q -n %{modname}-%{version}
-%patch0 -p1
+%patch -P0 -p1
 %{__sed} -i 's:<net/ieee80211.h>:"net/ieee80211.h":g' *.c
 
 %build
